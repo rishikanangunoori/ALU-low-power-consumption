@@ -1,0 +1,193 @@
+module ALU_32bit_tb;
+
+
+    reg [31:0] A;
+    reg [31:0] B;
+    reg [2:0]  Opcode;
+
+    reg Clk;
+    reg Enable;
+
+    wire [31:0] Result;
+    wire Cout;
+    ALU_32bit uut (
+
+        .A(A),
+        .B(B),
+        .Opcode(Opcode),
+        .Clk(Clk),
+        .Enable(Enable),
+        .Result(Result),
+        .Cout(Cout)
+
+    );
+
+
+    initial begin
+
+        Clk = 1'b0;
+
+        forever #5 Clk = ~Clk;
+
+    end
+
+    initial begin
+
+        // Initial values
+        A       = 32'b0;
+        B       = 32'b0;
+        Opcode  = 3'b000;
+        Enable  = 1'b0;
+
+
+        // Wait for first clock edge
+        #10;
+
+
+        Enable = 1'b1;
+
+        Opcode = 3'b000;
+
+        A = 32'h0000_0003;
+        B = 32'h0000_0005;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("ADDITION");
+        $display("A      = %h", A);
+        $display("B      = %h", B);
+        $display("Result = %h", Result);
+        $display("Cout   = %b", Cout);
+        $display("-----------------------------------------");
+
+
+        // =================================================
+        // TEST 2 : SUBTRACTION
+        // Opcode = 001
+        // =================================================
+
+        Opcode = 3'b001;
+
+        A = 32'h0000_0003;
+        B = 32'h0000_0005;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("SUBTRACTION");
+        $display("A      = %h", A);
+        $display("B      = %h", B);
+        $display("Result = %h", Result);
+        $display("Cout   = %b", Cout);
+        $display("-----------------------------------------");
+
+
+        // =================================================
+        // TEST 3 : AND
+        // Opcode = 010
+        // =================================================
+
+        Opcode = 3'b010;
+
+        A = 32'h0000_00FF;
+        B = 32'h0000_0F0F;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("AND");
+        $display("A      = %h", A);
+        $display("B      = %h", B);
+        $display("Result = %h", Result);
+        $display("-----------------------------------------");
+=
+        // TEST 4 : OR
+        // Opcode = 011
+        // =================================================
+
+        Opcode = 3'b011;
+
+        A = 32'h0000_00FF;
+        B = 32'h0000_0F0F;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("OR");
+        $display("A      = %h", A);
+        $display("B      = %h", B);
+        $display("Result = %h", Result);
+        $display("-----------------------------------------");
+
+
+        // =================================================
+        // TEST 5 : XOR
+        // Opcode = 100
+        // =================================================
+
+        Opcode = 3'b100;
+
+        A = 32'h0000_00FF;
+        B = 32'h0000_0F0F;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("XOR");
+        $display("A      = %h", A);
+        $display("B      = %h", B);
+        $display("Result = %h", Result);
+        $display("-----------------------------------------");
+
+
+        // =================================================
+        // TEST 6 : NOT
+        // Opcode = 101
+        // =================================================
+
+        Opcode = 3'b101;
+
+        A = 32'h0000_00FF;
+        B = 32'b0;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("NOT");
+        $display("A      = %h", A);
+        $display("Result = %h", Result);
+        $display("-----------------------------------------");
+
+
+        // =================================================
+        // TEST 7 : ALU DISABLED
+        // =================================================
+
+        Enable = 1'b0;
+
+        Opcode = 3'b000;
+
+        A = 32'h0000_0005;
+        B = 32'h0000_0003;
+
+        #10;
+
+        $display("-----------------------------------------");
+        $display("ALU DISABLED");
+        $display("A      = %h", A);
+        $display("B      = %h", B);
+        $display("Result = %h", Result);
+        $display("Cout   = %b", Cout);
+        $display("-----------------------------------------");
+        #10;
+
+        $display("=========================================");
+        $display("       SIMULATION COMPLETED");
+        $display("=========================================");
+
+        $stop;
+
+    end
+
+endmodule
